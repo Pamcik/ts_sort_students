@@ -1,4 +1,3 @@
-
 export interface Student {
   name: string;
   surname: string;
@@ -15,7 +14,6 @@ export enum SortType {
   AverageGrade = 'AverageGrade',
 }
 
-// create SortOrder type
 export type SortOrder = 'asc' | 'desc';
 
 export function sortStudents(
@@ -23,9 +21,7 @@ export function sortStudents(
   sortBy: SortType,
   order: SortOrder,
 ): Student[] {
-  const studentsCopy = [...students];
-
-  const compare = (a: Student, b: Student): number => {
+  return [...students].sort((a: Student, b: Student): number => {
     let aValue: string | number | boolean;
     let bValue: string | number | boolean;
 
@@ -48,16 +44,13 @@ export function sortStudents(
         break;
 
       case SortType.AverageGrade: {
-        const avg = (
-          grades: number[],
-        ): number => grades
+        const avg = (grades: number[]): number => grades
           .reduce((sum, g) => sum + g, 0) / grades.length;
 
         aValue = avg(a.grades);
         bValue = avg(b.grades);
         break;
       }
-
       default:
         throw new Error(`Nieznany typ sortowania: ${sortBy}`);
     }
@@ -71,7 +64,5 @@ export function sortStudents(
     }
 
     return 0;
-  };
-
-  return studentsCopy.sort(compare);
+  });
 }
